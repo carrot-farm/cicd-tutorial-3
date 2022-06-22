@@ -33,7 +33,8 @@ jobs:
       - run: yarn build
 
       - name: Generate zip File
-        run: zip -r deploy.zip .next/standalone
+        run: |
+          zip -r deploy.zip .next package.json
 
       # - name: Configure AWS credentials
       #   uses: aws-actions/configure-aws-credentials@v1
