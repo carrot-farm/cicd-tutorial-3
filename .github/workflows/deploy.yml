@@ -34,11 +34,7 @@ jobs:
 
       - name: Generate zip File
         run: |
-          cd .next/standalone
-          zip -r deploy.zip .
-          mv deploy.zip ../../
-          cd ../../
-          ls
+          zip -r deploy.zip .next package.json
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
@@ -47,13 +43,13 @@ jobs:
           format: YYYY-MM-DDTHH-mm-ss
           utcOffset: "+09:00"
 
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v14
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: test-app
-          environment_name: Testapp-env
-          version_label: github-action-${{steps.current-time.outputs.formattedTime}}
-          region: ${{ secrets.AWS_REGION }}
-          deployment_package: deploy.zip
+      # - name: Deploy to EB
+      #   uses: einaregilsson/beanstalk-deploy@v14
+      #   with:
+      #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     application_name: test-app
+      #     environment_name: Testapp-env
+      #     version_label: github-action-${{steps.current-time.outputs.formattedTime}}
+      #     region: ${{ secrets.AWS_REGION }}
+      #     deployment_package: deploy.zip
