@@ -17,31 +17,17 @@ jobs:
           node-version: "16.x"
           registry-url: "https://registry.npmjs.org"
 
-      # - uses: actions/cache@v3
-      #   id: yarn-cache
-      #   with:
-      #     path: ~/.cache/yarn
-      #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-
-      # - if: steps.yarn-cache.outputs.cache-hit == 'true'
-      #   run: echo "yarn cache hit!"
-      # - if: steps.yarn-cache.outputs.cache-hit != 'true'
-      #   run: echo "yarn cache missed!"
-
       - run: yarn install --immutable --immutable-cache --check-cache
 
       - run: yarn build
 
       - name: Generate zip File
         run: |
-          zip -r deploy.zip .next package.json ecosystem.config.js
-
-      # - name: Generate zip File
-      #   run: |
-      #     mv ./ecosystem.config.js .next/standalone
-      #     cd .next/standalone
-      #     zip -r deploy.zip .
-      #     mv deploy.zip ../../
+          mkdir -p deploy
+          cp -r .next/standalone/* deploy
+          cp -r .platform deploy
+          cp ecosystem.config.js deploy
+          cd deploy && zip -r deploy.zip .
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
@@ -59,4 +45,4 @@ jobs:
           environment_name: Testapp-env
           version_label: github-action-${{steps.current-time.outputs.formattedTime}}
           region: ${{ secrets.AWS_REGION }}
-          deployment_package: deploy.zip
+          deployment_package: deploy/deploy.zip
