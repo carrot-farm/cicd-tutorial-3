@@ -24,10 +24,14 @@ jobs:
       - name: Generate zip File
         run: |
           mkdir -p deploy
-          cp -r .next/standalone/* deploy
+          cp -r .next deploy
           cp -r .platform deploy
           cp ecosystem.config.js deploy
+          cp package.json deploy
           cd deploy && zip -r deploy.zip .
+
+      - run: |
+          ls
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
