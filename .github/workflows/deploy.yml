@@ -1,3 +1,5 @@
+name: elastic-beanstalk-deploy
+
 on:
   push:
     branches:
