@@ -1,0 +1,52 @@
+on:
+  push:
+    branches:
+      - [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          registry-url: "https://registry.npmjs.org"
+
+      - uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - if: steps.yarn-cache.outputs.cache-hit == 'true'
+        run: echo "yarn cache hit!"
+      - if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: echo "yarn cache missed!"
+
+      - run: yarn install --immutable --immutable-cache --check-cache
+
+      - run: yarn build
+
+      - name: Generate zip File
+        run: zip -r deploy.zip .next/standalone
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: cicd-tutorial-3
+          environment_name: Cicdtutorial3-env
+          version_label: ${{github.SHA}}
+          region: ${{ secrets.AWS_REGION }}
+          deployment_package: deploy.zip
