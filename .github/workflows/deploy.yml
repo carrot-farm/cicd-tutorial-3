@@ -36,7 +36,7 @@ jobs:
         run: |
           cd .next/standalone
           zip -r deploy.zip .
-          mv .next/standalone/deploy.zip ../../
+          mv deploy.zip ../../
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
