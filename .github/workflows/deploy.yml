@@ -3,10 +3,10 @@ name: elastic-beanstalk-deploy
 on:
   push:
     branches:
-      - [main]
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
