@@ -56,8 +56,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: cicd-tutorial-3
-          environment_name: Cicdtutorial3-env
+          application_name: test-app
+          environment_name: Testapp-env
           version_label: github-action-${{steps.current-time.outputs.formattedTime}}
           region: ${{ secrets.AWS_REGION }}
           deployment_package: deploy.zip
