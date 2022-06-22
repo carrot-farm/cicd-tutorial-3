@@ -35,12 +35,21 @@ jobs:
       - name: Generate zip File
         run: zip -r deploy.zip .next/standalone
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ secrets.AWS_REGION }}
+
+      - run: echo "${{ github.SHA }}"
+
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00"
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v14
@@ -49,6 +58,6 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: cicd-tutorial-3
           environment_name: Cicdtutorial3-env
-          version_label: ${{github.SHA}}
+          version_label: github-action-${{steps.current-time.outputs.formattedTime}}
           region: ${{ secrets.AWS_REGION }}
           deployment_package: deploy.zip
