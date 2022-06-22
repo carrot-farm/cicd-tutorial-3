@@ -34,8 +34,9 @@ jobs:
 
       - name: Generate zip File
         run: |
+          mv ./ecosystem.config.js .next/standalone
           cd .next/standalone
-          zip -r deploy.zip . ../../ecosystem.config.js
+          zip -r deploy.zip . 
           mv deploy.zip ../../
 
       - name: Get current time
