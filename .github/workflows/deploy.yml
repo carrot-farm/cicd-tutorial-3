@@ -25,8 +25,6 @@ jobs:
         run: |
           mkdir -p deploy
           cp -r .next deploy
-          cp -r .platform deploy
-          cp -r .ebextensions deploy
           cp ecosystem.config.js deploy
           cp package.json deploy
           cd deploy && zip -r deploy.zip .
