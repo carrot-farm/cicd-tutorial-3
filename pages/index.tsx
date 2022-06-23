@@ -15,12 +15,14 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome ddto{" "}
+          Welcome{" "}
           <a href="https://nextjs.org">
             Next.js!
             <BsAlarm />
           </a>
         </h1>
+
+        <p>{process.env.PORT}</p>
 
         <p className={styles.description}>
           Get started by editing99{" "}
