@@ -23,7 +23,6 @@ jobs:
 
       - name: Generate zip File
         run: |
-          yarn build
           mkdir -p deploy
           cp -r .next deploy
           cp ecosystem.config.js deploy
