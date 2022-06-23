@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome{" "}
+          Welcom HOHOe{" "}
           <a href="https://nextjs.org">
             Next.js!
             <BsAlarm />
