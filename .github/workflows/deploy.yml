@@ -23,9 +23,12 @@ jobs:
 
       - name: Generate zip File
         run: |
+          yarn build
           mkdir -p deploy
-          cp -r .next .platform deploy
-          cp ecosystem.config.js package.json next-env.d.ts next.config.js deploy
+          cp -r node_modules .next deploy
+          cp -r .platform deploy
+          cp ecosystem.config.js deploy
+          cp package.json deploy
           cd deploy && zip -r deploy.zip .
 
       - run: |
